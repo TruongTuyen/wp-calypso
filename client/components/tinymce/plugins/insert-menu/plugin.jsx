@@ -15,8 +15,8 @@ const initialize = editor => {
 			cmd: item.cmd,
 			onPostRender() {
 				this.innerHtml( renderToString( item.item ) );
-			}
-		} )
+			},
+		} ),
 	);
 
 	editor.addButton( 'wpcom_insert_menu', {
@@ -26,11 +26,22 @@ const initialize = editor => {
 		cmd: menuItems[ 0 ].cmd,
 		menu: menuItems.map( ( { name } ) => editor.menuItems[ name ] ),
 		onPostRender() {
-			ReactDOM.render(
-				<Gridicon icon="add-outline" />,
-				this.$el[ 0 ].children[ 0 ]
-			);
-		}
+			ReactDOM.render( <Gridicon icon="add-outline" />, this.$el[ 0 ].children[ 0 ] );
+
+			const btnTooltip = this.tooltip();
+
+			// Listen to `mouseenter` events on the (+) part of the Inserter menu to show
+			// the "Insert content" tooltip.
+			this.$el[ 0 ].children[ 0 ].addEventListener( 'mouseenter', () => {
+				btnTooltip.text( i18n.translate( 'Insert content' ) );
+			} );
+
+			// Listen to `mouseenter` events on the (v) part of the Inserter menu to show
+			// the "Insert special" tooltip.
+			this.$el[ 0 ].children[ 1 ].addEventListener( 'mouseenter', () => {
+				btnTooltip.text( i18n.translate( 'Insert special' ) );
+			} );
+		},
 	} );
 };
 
