@@ -65,7 +65,7 @@ class Login extends Component {
 		}
 	};
 
-	handleValidUsernamePassword = () => {
+	handleValidLogin = () => {
 		if ( this.props.twoFactorEnabled ) {
 			page( login( {
 				isNative: true,
@@ -199,12 +199,12 @@ class Login extends Component {
 
 		if ( socialConnect ) {
 			return (
-				<SocialConnectPrompt onSuccess={ this.rebootAfterLogin } />
+				<SocialConnectPrompt onSuccess={ this.handleValidLogin } />
 			);
 		}
 
 		return (
-			<LoginForm onSuccess={ this.handleValidUsernamePassword } privateSite={ privateSite } />
+			<LoginForm onSuccess={ this.handleValidLogin } privateSite={ privateSite } />
 		);
 	}
 
