@@ -28,49 +28,44 @@ const initialize = editor => {
 		onPostRender() {
 			ReactDOM.render( <Gridicon icon="add-outline" />, this.$el[ 0 ].children[ 0 ] );
 
-			let initialTooltipLeftPos = 0;
-			let initialTooltipTopPos = 0;
-
-			let firstTooltipRender = false;
-
 			// Listen to `mouseenter` events on the (+) part of the Inserter menu to show
 			// the "Insert content" tooltip.
-			this.$el[ 0 ].children[ 0 ].addEventListener( 'mouseenter', () => {
+			const insertContentElm = this.$el[ 0 ].children[ 0 ];
+
+			insertContentElm.addEventListener( 'mouseenter', () => {
 				// We need to select the tooltip during the `mouseenter` event and not outside.
 				// Otherwise, Tinymce renders an empty tooltip somewhere in the editor.
 				const btnTooltip = this.tooltip();
 
 				btnTooltip.text( i18n.translate( 'Insert content' ) );
 
-				if ( ! firstTooltipRender ) {
-					initialTooltipLeftPos = parseInt( btnTooltip.$el[ 0 ].style.left );
-					initialTooltipTopPos = parseInt( btnTooltip.$el[ 0 ].style.top );
+				btnTooltip.moveBy( -10, 0 );
+			} );
 
-					firstTooltipRender = true;
-				}
+			insertContentElm.addEventListener( 'mouseleave', () => {
+				const btnTooltip = this.tooltip();
 
-				btnTooltip.moveTo( initialTooltipLeftPos - 10, initialTooltipTopPos );
+				btnTooltip.moveBy( 10, 0 );
 			} );
 
 			// Listen to `mouseenter` events on the (v) part of the Inserter menu to show
 			// the "Insert special" tooltip.
-			const insertSpecialEl = this.$el[ 0 ].children[ 1 ];
+			const insertSpecialElm = this.$el[ 0 ].children[ 1 ];
 
-			insertSpecialEl.addEventListener( 'mouseenter', () => {
+			insertSpecialElm.addEventListener( 'mouseenter', () => {
 				// We need to select the tooltip during the `mouseenter` event and not outside.
 				// Otherwise, Tinymce renders an empty tooltip somewhere in the editor.
 				const btnTooltip = this.tooltip();
 
 				btnTooltip.text( i18n.translate( 'Insert special' ) );
 
-				if ( ! firstTooltipRender ) {
-					initialTooltipLeftPos = parseInt( btnTooltip.$el[ 0 ].style.left );
-					initialTooltipTopPos = parseInt( btnTooltip.$el[ 0 ].style.top );
+				btnTooltip.moveBy( 24, 0 );
+			} );
 
-					firstTooltipRender = true;
-				}
+			insertSpecialElm.addEventListener( 'mouseleave', () => {
+				const btnTooltip = this.tooltip();
 
-				btnTooltip.moveTo( initialTooltipLeftPos + 24, initialTooltipTopPos );
+				btnTooltip.moveBy( -24, 0 );
 			} );
 		},
 	} );
