@@ -18,6 +18,7 @@ import Navigation from '../components/navigation';
 import Notice from 'components/notice';
 import PreloadTab from '../components/preload';
 import QueryStatus from '../components/data/query-status';
+import ExtensionRedirect from 'components/extension-redirect';
 import { Tabs } from './constants';
 import { getSelectedSiteId } from 'state/ui/selectors';
 import { getStatus } from '../state/status/selectors';
@@ -65,6 +66,7 @@ class WPSuperCache extends Component {
 
 		return (
 			<Main className={ mainClassName }>
+				<ExtensionRedirect siteId={ siteId } />
 				<QueryStatus siteId={ siteId } />
 
 				{ cacheDisabled &&
