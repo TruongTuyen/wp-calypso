@@ -1,3 +1,4 @@
+/** @format */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import tinymce from 'tinymce/tinymce';
@@ -16,7 +17,7 @@ const initialize = editor => {
 			onPostRender() {
 				this.innerHtml( renderToString( item.item ) );
 			},
-		} ),
+		} )
 	);
 
 	editor.addButton( 'wpcom_insert_menu', {
