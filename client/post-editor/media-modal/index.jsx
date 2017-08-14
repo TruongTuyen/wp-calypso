@@ -17,6 +17,7 @@ import {
 	isEmpty,
 	identity,
 	includes,
+	uniqueId,
 } from 'lodash';
 
 /**
@@ -146,15 +147,18 @@ export class EditorMediaModal extends Component {
 			return;
 		}
 
+		const itemsWithTransientId = mediaLibrarySelectedItems.map(
+			( item ) => Object.assign( {}, item, { ID: uniqueId( 'media-' ) } )
+		);
 		const value = mediaLibrarySelectedItems.length
 			? {
 				type: ModalViews.GALLERY === view ? 'gallery' : 'media',
-				items: mediaLibrarySelectedItems,
+				items: itemsWithTransientId,
 				settings: this.state.gallerySettings
 			} : undefined;
 
 		if ( value && this.state.source !== '' ) {
-			this.copyExternal( mediaLibrarySelectedItems, this.state.source );
+			this.copyExternal( itemsWithTransientId, this.state.source );
 		} else {
 			this.props.onClose( value );
 		}
