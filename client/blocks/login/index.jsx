@@ -17,10 +17,9 @@ import {
 	getRequestNotice,
 	getTwoFactorNotificationSent,
 	isTwoFactorEnabled,
-	getLinkingSocialUser,
-	getLinkingSocialService,
+	getSocialAccountIsLinking,
+	getSocialAccountLinkService,
 } from 'state/login/selectors';
-import { getOAuth2ClientData } from 'state/login/oauth2/selectors';
 import { recordTracksEvent } from 'state/analytics/actions';
 import VerificationCodeForm from './two-factor-authentication/verification-code-form';
 import WaitingTwoFactorNotificationApproval from './two-factor-authentication/waiting-notification-approval';
@@ -43,7 +42,7 @@ class Login extends Component {
 		twoFactorEnabled: PropTypes.bool,
 		twoFactorNotificationSent: PropTypes.string,
 		socialConnect: PropTypes.bool,
-		linkingSocialUser: PropTypes.string,
+		isLinking: PropTypes.bool,
 		linkingSocialService: PropTypes.string,
 	};
 
@@ -72,7 +71,7 @@ class Login extends Component {
 				// If no notification is sent, the user is using the authenticator for 2FA by default
 				twoFactorAuthType: this.props.twoFactorNotificationSent.replace( 'none', 'authenticator' )
 			} ) );
-		} else if ( this.props.linkingSocialUser ) {
+		} else if ( this.props.isLinking ) {
 			page( login( {
 				isNative: true,
 				socialConnect: true,
@@ -83,7 +82,7 @@ class Login extends Component {
 	};
 
 	handleValid2FACode = () => {
-		if ( this.props.linkingSocialUser ) {
+		if ( this.props.isLinking ) {
 			page( login( {
 				isNative: true,
 				socialConnect: true,
@@ -229,8 +228,8 @@ export default connect(
 		requestNotice: getRequestNotice( state ),
 		twoFactorEnabled: isTwoFactorEnabled( state ),
 		twoFactorNotificationSent: getTwoFactorNotificationSent( state ),
-		linkingSocialUser: getLinkingSocialUser( state ),
-		linkingSocialService: getLinkingSocialService( state ),
+		isLinking: getSocialAccountIsLinking( state ),
+		linkingSocialService: getSocialAccountLinkService( state ),
 	} ), {
 		recordTracksEvent,
 	}
